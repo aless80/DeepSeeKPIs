@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2 (Build 740)" ts="2018-03-02 15:51:09">
+<Class name="Test.KPISQL">
+<Description>
+Test.KPISQL - Create a calculated member using %KPI. 
+See two examples below in the %OnGetSQL method</Description>
+<Super>%DeepSee.KPI</Super>
+<TimeChanged>64709,57037.672607</TimeChanged>
+<TimeCreated>64709,56891.096637</TimeCreated>
+
+<Parameter name="DOMAIN">
+</Parameter>
+
+<Parameter name="RESOURCE">
+</Parameter>
+
+<XData name="KPI">
+<Description>
+This XData definition defines the KPI.</Description>
+<XMLNamespace>http://www.intersystems.com/deepsee/kpi</XMLNamespace>
+<Data><![CDATA[
+<kpi name="KPISQL" displayName="KPISQL" sourceType="sql">
+<property name="MbrCount" displayName="MbrCount" columnNo="2" /> 
+<filter name="level" displayName="level" />
+</kpi>
+]]></Data>
+</XData>
+
+<Method name="%OnGetSQL">
+<Description>
+This callback, if implements, lets a subclass provide an SQL statement to fetch data for this KPI. </Description>
+<FormalSpec><![CDATA[&pSQL:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	If '$IsObject(..%filterValues) || '$D(..%filterValues.%data("level")) {
+		Set pSQL = "SELECT 'MbrCount','Provide level paramenter in %KPI'"
+		Quit $$$OK
+	}
+	
+	//Query the fact table..
+    Set pSQL = "SELECT 'MbrCount', COUNT(DISTINCT "_..%filterValues.level_") FROM DeepSee_Model_ConnectorCube.Fact"
+    //.. for example, in SAMPLES - Patients use %KPI("KPISQL","MbrCount",1,"level","DxHomeCity","%CONTEXT")..
+    //Or query the source table..
+    Set pSQL = "SELECT 'MbrCount', COUNT(DISTINCT "_..%filterValues.level_") FROM DeepSee_Study.Patient"
+    //.. for example, in SAMPLES - Patients use %KPI("KPISQL","MbrCount",1,"level","HomeCity","%CONTEXT")
+    
+    //If you want to apply filters to this KPI you will have to define more <filters> elements,
+    // use the %CONTEXT paramenter in %KPI, and implement logic using ..%filterValues. 
+	//See the documentation and the DeepSee.Model.KPIs.DemoSQL class as an example	
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnGetListingSQL">
+<Description><![CDATA[
+This callback, if implemented, returns the text of an SQL query used to provide
+a "detail listing" for this KPI.<br/>
+<var>pFilters</var> is an array of current filter values: pFilters(name)=value.<br/>
+<var>pSelection</var> is an array containing information about the current selected items in the pivot.
+It contains several values:<br/>
+pSelection("selectedRange") contains the current selected cells in the pivot as a string in the form
+"startRow,startCol,endRow,endCol" (1-based). "" if no cells are selected.<br/>
+pSelection("rowValues") contains a csv-list of "row" values for the selected rows in the pivot (similar
+to the $$$VALUELIST value used for OpenWindow URLs. This may contain "\," for "," within the data values.<br/>
+pSelection("sortColumn") is the number of the column to sort on (or 0 for no sort).<br/>
+pSelection("sortDir") is the sort direction ("ASC" or "DESC").<br/>
+<var>pListingName</var> is the name of the listing to display. This is reserved for future use.<br/>
+This method is simply a convenient alternative to the <method>%OnGetListingResultSet</method> method.
+It takes precedence over the <method>%OnGetListingResultSet</method> method.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&pFilters:%String,&pSelection:%String,pListingName:%String=""]]></FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	Quit ""
+]]></Implementation>
+</Method>
+</Class>
+</Export>
