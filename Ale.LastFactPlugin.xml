@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2 (Build 744)" ts="2017-10-25 15:36:59">
+<Class name="Ale.LastFactPlugin">
+<Description>
+Use it in a calculated measure as %KPI("Ale.LastFactPlugin","LASTFACT",1,"sourcefield","ResultID","%CONTEXT")</Description>
+<Super>%DeepSee.KPIPlugIn</Super>
+<TimeChanged>64581,46848.765425</TimeChanged>
+<TimeCreated>64581,46773.305438</TimeCreated>
+
+<Parameter name="BASECUBE">
+<Description>
+Cube(s) that this plug-in is based on.</Description>
+<Default>*</Default>
+</Parameter>
+
+<Parameter name="LISTINGSOURCE">
+<Description>
+SourceTable</Description>
+<Default>SourceTable</Default>
+</Parameter>
+
+<Parameter name="PLUGINTYPE">
+<Default>Pivot</Default>
+</Parameter>
+
+<XData name="KPI">
+<Description>
+Parameter LISTINGFIELDS = "ResultID as SensorReading, %ID as ID";</Description>
+<XMLNamespace>http://www.intersystems.com/deepsee/kpi</XMLNamespace>
+<Data><![CDATA[
+<kpi name="Ale.LastFactPlugin" displayName="LastFact" caption="LastFact" >
+<filter name="%cube" displayName="Subject Area"/>
+<filter name="%sourcefield" displayName="Sourcefield"/>
+<property name="LASTFACT" displayName="LastFact" description="" />
+
+</kpi>
+]]></Data>
+</XData>
+
+<Method name="%OnGetMDX">
+<Description>
+Get the base query for this plug-in.</Description>
+<FormalSpec><![CDATA[&pMDX:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tBaseCube = ""
+	// Use %cube filter to find the base cube
+	If $IsObject(..%filterValues) {
+		If (..%filterValues.%cube'="") {
+			Set tBaseCube = ..%filterValues.%cube
+		}
+	}
+	If (tBaseCube'="") {
+		Set pMDX = "SELECT FROM "_tBaseCube
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnGetListingFields">
+<Description>
+Returns the field list (RETURN clause) of the listing used to supply data for this plug-in.
+In this case, determine which field in the source table we need.</Description>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	// JMD1124 return error by default
+	Set tListingFields = "'ERROR:No Sourcefield' sourcefield"
+	If $IsObject(..%filterValues) {
+		If (..%filterValues.%data("sourcefield")'="") {		
+			Set tSourcefield = ..%filterValues.%data("sourcefield")
+			Set tListingFields = tSourcefield _ " sourcefield"
+		}
+	}
+	Quit tListingFields_",%ID ID"  //Also pass the ID in case you want to use it in %OnCompute
+]]></Implementation>
+</Method>
+
+<Method name="%OnCompute">
+<Description>
+Compute the vlue for the last fact using the result set.</Description>
+<FormalSpec>pSQLRS:%SQL.StatementResult,pFactCount:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tSC = $$$OK
+	Try {
+		Set tErrMsg = ""
+		While (pSQLRS.%Next(.tSC)) { 
+				If $$$ISERR(tSC) {
+				Set tErrMsg = $System.Status.GetErrorText(tSC)
+				Quit
+			}
+		
+			// Get the last fact added to the table. If unsure check pSQLRS.ID
+			Set tValue = pSQLRS.sourcefield
+			
+			If ($ZSTRIP($P(tValue,":"),"<>W")="ERROR") {
+				Set tErrMsg = $P(tValue,":",2)
+				Quit
+			}
+		}
+		// place answer in KPI output
+		Set ..%seriesCount = 1
+		Set ..%seriesNames(1) = "LastFact"
+		If (tErrMsg'="") {
+			Set ..%data(1,"LASTFACT") = tErrMsg
+		} Else {
+			Set ..%data(1,"LASTFACT") = tValue
+		}
+	}
+	Catch(ex) {
+		Set tSC = ex.AsStatus()
+	}
+	Quit tSC
+]]></Implementation>
+</Method>
+</Class>
+</Export>
