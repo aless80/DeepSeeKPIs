@@ -1,3 +1,7 @@
 #  DeepSee_LastFactPlugin
 
-DeepSee plugin that can be used with DeepSee, InterSystems' Business intelligence product. This KPI returns the latest fact 
+DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
+
+
+### Description
+TODO
