@@ -1,6 +1,3 @@
-# DeepSeeKPIs
-Collection of KPIs that can be used with DeepSee, InterSystems' Business intelligence product. 
+#  DeepSee_LastFactPlugin
 
-
-
-DESCRIPTION WILL COME SOON
+DeepSee plugin that can be used with DeepSee, InterSystems' Business intelligence product. This KPI returns the latest fact 
