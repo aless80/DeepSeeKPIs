@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2 (Build 744)" ts="2017-10-25 15:36:59">
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-08 09:39:20">
 <Class name="Ale.LastFactPlugin">
 <Description>
-Use it in a calculated measure as %KPI("Ale.LastFactPlugin","LASTFACT",1,"sourcefield","ResultID","%CONTEXT")</Description>
+Ale.LastFactPlugin
+This DeepSee Plugin returns the property of one single fact. The fact is, within the context of a cell, the one with the highest ID. 
+I use the word "Last" because records in a source table are often added chronologically. 
+Example: create a calculated measure with expression: %KPI("LastFactPlugin","LastFact",1,"outputfield","UnitsSold","%CONTEXT")
+The example above used with the Holefoods cube in SAMPLES will return the UnitsSold of the fact with the highest ID </Description>
 <Super>%DeepSee.KPIPlugIn</Super>
-<TimeChanged>64581,46848.765425</TimeChanged>
+<TimeChanged>64868,34752.031461</TimeChanged>
 <TimeCreated>64581,46773.305438</TimeCreated>
 
 <Parameter name="BASECUBE">
@@ -24,15 +28,12 @@ SourceTable</Description>
 </Parameter>
 
 <XData name="KPI">
-<Description>
-Parameter LISTINGFIELDS = "ResultID as SensorReading, %ID as ID";</Description>
 <XMLNamespace>http://www.intersystems.com/deepsee/kpi</XMLNamespace>
 <Data><![CDATA[
-<kpi name="Ale.LastFactPlugin" displayName="LastFact" caption="LastFact" >
+<kpi name="LastFactPlugin" displayName="LastFact" caption="LastFact" >
 <filter name="%cube" displayName="Subject Area"/>
-<filter name="%sourcefield" displayName="Sourcefield"/>
-<property name="LASTFACT" displayName="LastFact" description="" />
-
+<filter name="%outputfield" displayName="outputfield" description="Field of source record to be returned as output"/>
+<property name="LastFact" displayName="LastFact" description="" />
 </kpi>
 ]]></Data>
 </XData>
@@ -64,11 +65,11 @@ In this case, determine which field in the source table we need.</Description>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
 	// JMD1124 return error by default
-	Set tListingFields = "'ERROR:No Sourcefield' sourcefield"
+	Set tListingFields = "'ERROR:No outputfield' outputfield"
 	If $IsObject(..%filterValues) {
-		If (..%filterValues.%data("sourcefield")'="") {		
-			Set tSourcefield = ..%filterValues.%data("sourcefield")
-			Set tListingFields = tSourcefield _ " sourcefield"
+		If (..%filterValues.%data("outputfield")'="") {		
+			Set toutputfield = ..%filterValues.%data("outputfield")
+			Set tListingFields = toutputfield _ " outputfield"
 		}
 	}
 	Quit tListingFields_",%ID ID"  //Also pass the ID in case you want to use it in %OnCompute
@@ -91,7 +92,7 @@ Compute the vlue for the last fact using the result set.</Description>
 			}
 		
 			// Get the last fact added to the table. If unsure check pSQLRS.ID
-			Set tValue = pSQLRS.sourcefield
+			Set tValue = pSQLRS.outputfield
 			
 			If ($ZSTRIP($P(tValue,":"),"<>W")="ERROR") {
 				Set tErrMsg = $P(tValue,":",2)
@@ -102,9 +103,9 @@ Compute the vlue for the last fact using the result set.</Description>
 		Set ..%seriesCount = 1
 		Set ..%seriesNames(1) = "LastFact"
 		If (tErrMsg'="") {
-			Set ..%data(1,"LASTFACT") = tErrMsg
+			Set ..%data(1,"LastFact") = tErrMsg
 		} Else {
-			Set ..%data(1,"LASTFACT") = tValue
+			Set ..%data(1,"LastFact") = tValue
 		}
 	}
 	Catch(ex) {
