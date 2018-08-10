@@ -85,6 +85,7 @@ Compute the vlue for the last fact using the result set.</Description>
 	Set tSC = $$$OK
 	Try {
 		Set tErrMsg = ""
+		Set tValue = ""
 		While (pSQLRS.%Next(.tSC)) { 
 				If $$$ISERR(tSC) {
 				Set tErrMsg = $System.Status.GetErrorText(tSC)
