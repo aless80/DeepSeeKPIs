@@ -17,7 +17,7 @@ The following commands import the plugin in the SAMPLES namespace:
 
 ```
 USER>ZN "SAMPLES"
-SAMPLES>W $system.OBJ.Load("/home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime","cf")
+SAMPLES>W $system.OBJ.Load("/home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime.cls","cf")
 Load started on 08/15/2018 10:58:44
 Loading file /home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime as xml
 Imported class: Ale.PluginTest
@@ -26,6 +26,7 @@ Compiling routine Ale.PluginTest.1
 Load finished successfully.
 1
 ```
+If your instance does not support UDL formatting please use the .xml file.
 
 
 ### Usage
