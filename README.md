@@ -17,7 +17,6 @@ The following commands import the plugin in the SAMPLES namespace:
 
 ```
 USER>ZN "SAMPLES"
-
 SAMPLES>W $system.OBJ.Load("/home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime","cf")
 Load started on 08/15/2018 10:58:44
 Loading file /home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime as xml
