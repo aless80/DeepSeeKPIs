@@ -3,14 +3,14 @@
 DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
 
 
-WORK IN PROGRESS
-
 ### Description
 
 The Ale.PluginLastDate DeepSee Plugin returns the property of one single fact. The fact is, within the context of a cell, the one whose source record has the latest datetime stamp. 
 The datetime stamp is indicated in the "datetimestamp" parameter and it must be a field of the source 
 class in this format: 'YYY-MM-DD HH:MM:SS'. 
 This feature is not yet available in DeepSee using "normal" cube measures or [calculated members](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2GMDX_ch_calculated_members). 
+
+WORK IN PROGRESS for Ale.LastFactPlugin.xml
 
 ### Install
 The following commands import the plugin in the SAMPLES namespace:
