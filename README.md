@@ -10,7 +10,8 @@ class in this format: 'YYY-MM-DD HH:MM:SS'.
 This feature is not yet available in DeepSee using "normal" cube measures or [calculated members](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2GMDX_ch_calculated_members). 
 
 ### LastFactPlugin
-TODO
+The Ale.LastFactPlugin DeepSee Plugin returns the property of one single fact. The fact is, within the context of a cell, the one whose source record has the highest ID. 
+The word "Last" is used here because records in a source table are often added chronologically, and the ID is a good indicator of which record was most recently added to a table. 
 
 ### Install
 The following commands import the plugins in the SAMPLES namespace:
