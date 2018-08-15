@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-15 12:00:39">
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-08 09:39:20">
 <Class name="Ale.LastFactPlugin">
 <Description>
-Ale.LastFactByIDPlugin
-This DeepSee Plugin returns the property of one single fact. 
-The fact is, within the context of a cell, the one whose source record has the highest ID. 
+Ale.LastFactPlugin
+This DeepSee Plugin returns the property of one single fact. The fact is, within the context of a cell, the one with the highest ID. 
 I use the word "Last" because records in a source table are often added chronologically. 
-Example: create a calculated measure with expression: %KPI("LastFactByIDPlugin","LastFactByID",1,"outputfield","AmountOfSale","%CONTEXT")
-The example above used with the Holefoods cube in SAMPLES will return the AmountOfSale of the fact with the highest ID </Description>
+Example: create a calculated measure with expression: %KPI("LastFactPlugin","LastFact",1,"outputfield","UnitsSold","%CONTEXT")
+The example above used with the Holefoods cube in SAMPLES will return the UnitsSold of the fact with the highest ID </Description>
 <Super>%DeepSee.KPIPlugIn</Super>
-<TimeChanged>64875,43080.449283</TimeChanged>
+<TimeChanged>64868,34752.031461</TimeChanged>
 <TimeCreated>64581,46773.305438</TimeCreated>
 
 <Parameter name="BASECUBE">
@@ -31,10 +30,10 @@ SourceTable</Description>
 <XData name="KPI">
 <XMLNamespace>http://www.intersystems.com/deepsee/kpi</XMLNamespace>
 <Data><![CDATA[
-<kpi name="LastFactByIDPlugin" displayName="LastFactByID" caption="LastFactByID" >
+<kpi name="LastFactPlugin" displayName="LastFact" caption="LastFact" >
 <filter name="%cube" displayName="Subject Area"/>
 <filter name="%outputfield" displayName="outputfield" description="Field of source record to be returned as output"/>
-<property name="LastFactByID" displayName="LastFactByID" description="" />
+<property name="LastFact" displayName="LastFact" description="" />
 </kpi>
 ]]></Data>
 </XData>
@@ -65,6 +64,7 @@ Returns the field list (RETURN clause) of the listing used to supply data for th
 In this case, determine which field in the source table we need.</Description>
 <ReturnType>%String</ReturnType>
 <Implementation><![CDATA[
+	// JMD1124 return error by default
 	Set tListingFields = "'ERROR:No outputfield' outputfield"
 	If $IsObject(..%filterValues) {
 		If (..%filterValues.%data("outputfield")'="") {		
@@ -78,7 +78,7 @@ In this case, determine which field in the source table we need.</Description>
 
 <Method name="%OnCompute">
 <Description>
-Compute the value for the last fact using the result set.</Description>
+Compute the vlue for the last fact using the result set.</Description>
 <FormalSpec>pSQLRS:%SQL.StatementResult,pFactCount:%Integer</FormalSpec>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
@@ -86,31 +86,27 @@ Compute the value for the last fact using the result set.</Description>
 	Try {
 		Set tErrMsg = ""
 		Set tValue = ""
-		Set n = 0
 		While (pSQLRS.%Next(.tSC)) { 
-			If $$$ISERR(tSC) {
+				If $$$ISERR(tSC) {
 				Set tErrMsg = $System.Status.GetErrorText(tSC)
 				Quit
 			}
-			//Get the last fact added to the table
+		
+			// Get the last fact added to the table. If unsure check pSQLRS.ID
 			Set tValue = pSQLRS.outputfield
+			
 			If ($ZSTRIP($P(tValue,":"),"<>W")="ERROR") {
 				Set tErrMsg = $P(tValue,":",2)
 				Quit
 			}
-			// update pct complete
-			Set n = n + 1
-			If (n#100 = 0) {
-				Do ..%SetPercentComplete(100*(n/pFactCount))
-			}
 		}
 		// place answer in KPI output
 		Set ..%seriesCount = 1
-		Set ..%seriesNames(1) = "LastFactByID"
+		Set ..%seriesNames(1) = "LastFact"
 		If (tErrMsg'="") {
-			Set ..%data(1,"LastFactByID") = tErrMsg
+			Set ..%data(1,"LastFact") = tErrMsg
 		} Else {
-			Set ..%data(1,"LastFactByID") = tValue
+			Set ..%data(1,"LastFact") = tValue
 		}
 	}
 	Catch(ex) {
