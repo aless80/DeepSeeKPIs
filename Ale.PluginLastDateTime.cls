@@ -23,7 +23,6 @@ XData KPI [ XMLNamespace = "http://www.intersystems.com/deepsee/kpi" ]
 <kpi name="PluginLastDateTime" displayName="PluginLastDateTime" caption="PluginLastDateTime" >
 <filter name="%cube" displayName="Subject Area"/>
 <filter name="%datetimestamp" displayName="datetimestamp" description="Field of source record to be returned as output"/>
-<filter name="%comparefield" displayName="comparefield"  description="Field of source record to maximize (%ID by default). The fact corresponding to the source record with maximum comparefield will be returned. %ID breaks ties"/>
 <property name="LastDateTime" displayName="LastDateTime" description="" />
 
 </kpi>
@@ -54,7 +53,6 @@ Method %OnGetListingFields() As %String
 		If (..%filterValues.%data("datetimestamp")'="") {		
 			Set tdatetimestamp = ..%filterValues.%data("datetimestamp")
 			Set tListingFields = tdatetimestamp _ " datetimestamp"
-			Set tcomparefield = "tdatetimestamp"
 		}
 	}
 	Quit tListingFields _",%ID ID"  //Also pass the ID in case you want to use it in %OnCompute

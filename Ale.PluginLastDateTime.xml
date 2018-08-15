@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-15 11:28:53">
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-15 11:36:59">
 <Class name="Ale.PluginLastDateTime">
 <Description>
 Ale.PluginLastDateTime
@@ -12,7 +12,7 @@ the most recent BirthDateTimeStamp time stamp:
 %KPI("PluginLastDateTime","LastDateTime",1,"datetimestamp","BirthDateTimeStamp","%CONTEXT")
 You can create a calculated measure with the expression above</Description>
 <Super>%DeepSee.KPIPlugIn</Super>
-<TimeChanged>64875,41288.622035</TimeChanged>
+<TimeChanged>64875,41801.145326</TimeChanged>
 <TimeCreated>64875,41288.622035</TimeCreated>
 
 <Parameter name="BASECUBE">
@@ -37,7 +37,6 @@ SourceTable</Description>
 <kpi name="PluginLastDateTime" displayName="PluginLastDateTime" caption="PluginLastDateTime" >
 <filter name="%cube" displayName="Subject Area"/>
 <filter name="%datetimestamp" displayName="datetimestamp" description="Field of source record to be returned as output"/>
-<filter name="%comparefield" displayName="comparefield"  description="Field of source record to maximize (%ID by default). The fact corresponding to the source record with maximum comparefield will be returned. %ID breaks ties"/>
 <property name="LastDateTime" displayName="LastDateTime" description="" />
 
 </kpi>
@@ -75,7 +74,6 @@ In this case, determine which field in the source table we need.</Description>
 		If (..%filterValues.%data("datetimestamp")'="") {		
 			Set tdatetimestamp = ..%filterValues.%data("datetimestamp")
 			Set tListingFields = tdatetimestamp _ " datetimestamp"
-			Set tcomparefield = "tdatetimestamp"
 		}
 	}
 	Quit tListingFields _",%ID ID"  //Also pass the ID in case you want to use it in %OnCompute
