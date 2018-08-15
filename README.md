@@ -2,6 +2,7 @@
 
 DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
 
+![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/img/last_datetime_by_doctor.png)
 
 ### Description
 
@@ -52,3 +53,6 @@ Zemaitis, Aviel                    30   2005-04-13 20:23:16
 Elapsed time:       .021952s
 ```
 This query shows that a Doctor has 30 patients facts. The latest BirthDateTimeStamp is shown in the second column
+
+### Limitations
+This routine is **not officially supported by InterSystems Co.** I suggest using this routine only in test environments.
