@@ -1,7 +1,6 @@
 #  DeepSee_LastFactPlugin
 
-DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
-
+DeepSee [plugins](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the latest fact in a cell. 
 
 ### Description
 ### PluginLastDateTime
@@ -15,7 +14,6 @@ TODO
 
 ### Install
 The following commands import the plugins in the SAMPLES namespace:
-
 ```
 USER>ZN "SAMPLES"
 SAMPLES>W $system.OBJ.Load("/home/amarin/DeepSee_LastFactPlugin/Ale.PluginLastDateTime.cls","cf")
@@ -23,21 +21,17 @@ SAMPLES>W $system.OBJ.Load("/home/amarin/DeepSee_LastFactPlugin/Ale.LastFactPlug
 ```
 If your instance does not support UDL formatting please use the .xml file.
 
-
 ### Usage
 #### PluginLastDateTime
 The PATIENTS cube in SAMPLES has a BirthDateTimeStamp field. The following call will return 
 the most recent BirthDateTimeStamp time stamp: 
-
 ```
 %KPI("PluginLastDateTime","LastDateTime",1,"datetimestamp","BirthDateTimeStamp","%CONTEXT")
 ```
-
 You can create a [calculated measure](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2GMDX_ch_calculated_members) with the expression above and use it in Analyzer (see figure below). This command sets a calculated measure for the PATIENTS cube with shared storage: 
 ```
 SAMPLES>Set ^DeepSee.CalcMbrs("PATIENTS","MEASURES","LASTDATETIME")=$lb("MEASURES","LastDateTime","%KPI(""PluginLastDateTime"",""LastDateTime"",1,""datetimestamp"",""BirthDateTimeStamp"",""%CONTEXT"")","","0")
 ```
-
 MDX example in DeepSee: 
 ```
 SAMPLES>do $System.DeepSee.Shell()
@@ -57,7 +51,6 @@ The HOLEFOODS cube in SAMPLES has a AmountOfSale field. The following call will 
 the AmountOfSale field for most recent record in the source table, where most recent is defined by the highest ID (as explained in the description): 
 ```
 %KPI("LastFactByIDPlugin","LastFactByID",1,"outputfield","AmountOfSale","%CONTEXT")
-
 ```
 MDX example in DeepSee: 
 ```
