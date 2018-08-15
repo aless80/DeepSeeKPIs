@@ -2,7 +2,6 @@
 
 DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
 
-![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_datetime_by_doctor.png)
 
 ### Description
 
@@ -35,7 +34,7 @@ The PATIENTS cube in SAMPLES has a BirthDateTimeStamp field. The following call 
 the most recent BirthDateTimeStamp time stamp: 
 %KPI("PluginLastDateTime","LastDateTime",1,"datetimestamp","BirthDateTimeStamp","%CONTEXT")
 
-You can create a [calculated measure](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2GMDX_ch_calculated_members) with the expression above and use it in Analyzer (see picture). This command sets a calculated measure for the PATIENTS cube with shared storage: 
+You can create a [calculated measure](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2GMDX_ch_calculated_members) with the expression above and use it in Analyzer (see figure below). This command sets a calculated measure for the PATIENTS cube with shared storage: 
 ```
 SAMPLES>Set ^DeepSee.CalcMbrs("PATIENTS","MEASURES","LASTDATETIME")=$lb("MEASURES","LastDateTime","%KPI(""PluginLastDateTime"",""LastDateTime"",1,""datetimestamp"",""BirthDateTimeStamp"",""%CONTEXT"")","","0")
 ```
@@ -56,3 +55,5 @@ This query shows that a Doctor has 30 patients facts. The latest BirthDateTimeSt
 
 ### Limitations
 This routine is **not officially supported by InterSystems Co.** I suggest using this routine only in test environments.
+
+![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_datetime_by_doctor.png)
