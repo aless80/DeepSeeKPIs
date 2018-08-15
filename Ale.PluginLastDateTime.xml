@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-15 10:53:05">
-<Class name="Ale.PluginTest">
+<Export generator="Cache" version="25" zv="Cache for UNIX (SUSE Linux Enterprise Server for x86-64) 2017.2.1 (Build 801)" ts="2018-08-15 11:28:53">
+<Class name="Ale.PluginLastDateTime">
 <Description>
-Ale.PluginLastDate
+Ale.PluginLastDateTime
 This DeepSee Plugin returns the property of one single fact. 
 The fact is, within the context of a cell, the one whose source record has the latest datetime stamp. 
 The datetime stamp is indicated in the "datetimestamp" parameter and it must be a field of the source 
@@ -12,8 +12,8 @@ the most recent BirthDateTimeStamp time stamp:
 %KPI("PluginLastDateTime","LastDateTime",1,"datetimestamp","BirthDateTimeStamp","%CONTEXT")
 You can create a calculated measure with the expression above</Description>
 <Super>%DeepSee.KPIPlugIn</Super>
-<TimeChanged>64875,39083.049111</TimeChanged>
-<TimeCreated>64868,47679.666871</TimeCreated>
+<TimeChanged>64875,41288.622035</TimeChanged>
+<TimeCreated>64875,41288.622035</TimeCreated>
 
 <Parameter name="BASECUBE">
 <Description>
