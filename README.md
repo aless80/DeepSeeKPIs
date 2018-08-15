@@ -88,13 +88,3 @@ This routine is **not officially supported by InterSystems Co.** I suggest using
 
 #### LastFactPlugin
 ![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_sale_by_product_category.png)
-
-
-### work in progress
-
-Ale.LastFactPlugin.xml
-Set ^DeepSee.CalcMbrs("HOLEFOODS","MEASURES","LASTSALE")=$lb("MEASURES","LastSale","%KPI(""LastFactByIDPlugin"",""LastFactByID"",1,""outputfield"",""AmountOfSale"",""%CONTEXT"")"_$c(10),"","0")
-
-SELECT {%LABEL([Measures].[Amount Sold],"","#.##"),[MEASURES].[LASTSALE]} ON 0,NON EMPTY [Product].[P1].[Product Category].Members ON 1 FROM [HOLEFOODS]
-
-last_sale_by_product_category.png
