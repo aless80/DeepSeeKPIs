@@ -2,7 +2,7 @@
 
 DeepSee [plugin](https://docs.intersystems.com/latest/csp/docbook/DocBook.UI.Page.cls?KEY=D2MODADV_ch_plugin) returning the source property for the latest fact in a cell. 
 
-![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/img/last_datetime_by_doctor.png)
+![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_datetime_by_doctor.png)
 
 ### Description
 
