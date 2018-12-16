@@ -77,12 +77,12 @@ Results pending...
 ### Limitations
 This routine is **not officially supported by InterSystems Co.** I suggest using this routine only in test environments.
 
-### TO DO
-Add a modified version of the MaxFieldPlugin in my [DeepSee_CubeManagerMonitor](https://github.com/aless80/DeepSee_CubeManagerMonitor.git) repository
-
 #### PluginLastDateTime
 ![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_datetime_by_doctor.png)
 
 #### LastFactPlugin
 ![Alt Text](https://github.com/aless80/DeepSee_LastFactPlugin/blob/master/last_sale_by_product_category.png)
 
+<!-- TO DO
+Add a modified version of the MaxFieldPlugin in my [DeepSee_CubeManagerMonitor](https://github.com/aless80/DeepSee_CubeManagerMonitor.git) repository
+-->
